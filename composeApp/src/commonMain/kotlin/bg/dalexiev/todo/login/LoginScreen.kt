@@ -1,4 +1,4 @@
-package bg.dalexiev.todo.ui.login
+package bg.dalexiev.todo.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

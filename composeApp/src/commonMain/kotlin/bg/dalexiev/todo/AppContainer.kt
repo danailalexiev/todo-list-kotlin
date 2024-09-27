@@ -1,8 +1,8 @@
 package bg.dalexiev.todo
 
-import bg.dalexiev.todo.data.fakeTaskRepository
-import bg.dalexiev.todo.data.tokenStore
-import bg.dalexiev.todo.data.userRepository
+import bg.dalexiev.todo.auth.tokenStore
+import bg.dalexiev.todo.login.userRepository
+import bg.dalexiev.todo.task.fakeTaskRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
@@ -39,7 +39,7 @@ class AppContainer {
         install(Auth) {
             bearer {
                 loadTokens {
-                    tokenStore.accessToken.value?.let { BearerTokens(it, "") }
+                    tokenStore.accessToken.value?.let { BearerTokens(it.value, null) }
                 }
             }
         }

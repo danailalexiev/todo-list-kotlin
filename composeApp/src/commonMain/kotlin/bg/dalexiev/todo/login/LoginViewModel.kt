@@ -1,4 +1,4 @@
-package bg.dalexiev.todo.ui.login
+package bg.dalexiev.todo.login
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,8 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bg.dalexiev.todo.data.TokenStore
-import bg.dalexiev.todo.data.UserRepository
+import bg.dalexiev.todo.auth.TokenStore
 import bg.dalexiev.todo.resources.Res
 import bg.dalexiev.todo.resources.login_title
 import bg.dalexiev.todo.util.Either

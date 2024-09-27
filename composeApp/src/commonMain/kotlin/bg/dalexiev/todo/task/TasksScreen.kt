@@ -1,4 +1,4 @@
-package bg.dalexiev.todo.ui.task
+package bg.dalexiev.todo.task
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +27,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import bg.dalexiev.todo.resources.Res
 import bg.dalexiev.todo.resources.tasks_all_done_content_description
@@ -36,7 +36,6 @@ import bg.dalexiev.todo.resources.tasks_all_done_label
 import bg.dalexiev.todo.resources.tasks_delete_task_button
 import bg.dalexiev.todo.resources.tasks_error_content_description
 import bg.dalexiev.todo.resources.tasks_error_label
-import bg.dalexiev.todo.task.Task
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -56,7 +55,7 @@ fun TaskScreen(
         is TasksUiState.LoggedIn -> TaskScreenContent(
             modifier = modifier,
             uiState = uiState as TasksUiState.LoggedIn,
-            onTaskCompletedChange = {},
+            onTaskCompleted = {},
             onTaskDeleted = {},
             onRefresh = { viewModel.refresh() }
         )
@@ -67,7 +66,7 @@ fun TaskScreen(
 private fun TaskScreenContent(
     modifier: Modifier = Modifier,
     uiState: TasksUiState.LoggedIn,
-    onTaskCompletedChange: (Task) -> Unit,
+    onTaskCompleted: (Task.PendingTask) -> Unit,
     onTaskDeleted: (Task) -> Unit,
     onRefresh: () -> Unit
 ) {
@@ -78,7 +77,7 @@ private fun TaskScreenContent(
             onRefresh = onRefresh
         ) {
             when (uiState) {
-                is TasksUiState.LoggedIn.LoadingFailed -> IconAndMessage(
+                is TasksUiState.LoggedIn.LoadingFailed -> NoTasks(
                     image = Icons.Filled.Warning,
                     imageContentDescription = Res.string.tasks_error_content_description,
                     text = Res.string.tasks_error_label,
@@ -88,12 +87,12 @@ private fun TaskScreenContent(
 
                 is TasksUiState.LoggedIn.Loaded -> TaskList(
                     tasks = uiState.tasks,
-                    onTaskCompletedChange = onTaskCompletedChange,
+                    onTaskCompleted = onTaskCompleted,
                     onTaskDeleted = onTaskDeleted,
                     modifier = Modifier.fillMaxSize()
                 )
 
-                is TasksUiState.LoggedIn.AllDone -> IconAndMessage(
+                is TasksUiState.LoggedIn.AllDone -> NoTasks(
                     image = Icons.Filled.Done,
                     imageContentDescription = Res.string.tasks_all_done_content_description,
                     text = Res.string.tasks_all_done_label,
@@ -109,7 +108,7 @@ private fun TaskScreenContent(
 @Composable
 private fun TaskList(
     tasks: List<Task>,
-    onTaskCompletedChange: (Task) -> Unit,
+    onTaskCompleted: (Task.PendingTask) -> Unit,
     onTaskDeleted: (Task) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -124,7 +123,7 @@ private fun TaskList(
         ) { index ->
             TaskListItem(
                 task = tasks[index],
-                onTaskCompletedChange = onTaskCompletedChange,
+                onTaskCompleted = onTaskCompleted,
                 onTaskDeleted = onTaskDeleted
             )
         }
@@ -134,22 +133,21 @@ private fun TaskList(
 @Composable
 private fun TaskListItem(
     task: Task,
-    onTaskCompletedChange: (Task) -> Unit,
+    onTaskCompleted: (Task.PendingTask) -> Unit,
     onTaskDeleted: (Task) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.Top,
         modifier = Modifier.fillMaxSize()
     ) {
-        Checkbox(
-            checked = task.completed,
-            enabled = !task.completed,
-            onCheckedChange = { onTaskCompletedChange(task) }
+        TaskCompletedCheckbox(
+            task = task,
+            onCheckedChange = onTaskCompleted
         )
 
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text(text = task.title, style = MaterialTheme.typography.titleSmall)
-            Text(text = task.description, style = MaterialTheme.typography.labelSmall)
+            Text(text = task.title.value, style = MaterialTheme.typography.titleSmall.forTask(task))
+            Text(text = task.description.value, style = MaterialTheme.typography.labelSmall.forTask(task))
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
@@ -164,7 +162,33 @@ private fun TaskListItem(
 }
 
 @Composable
-private fun IconAndMessage(
+private fun TaskCompletedCheckbox(
+    task: Task,
+    onCheckedChange: (Task.PendingTask) -> Unit
+) {
+    when (task) {
+        is Task.CompletedTask -> Checkbox(
+            checked = true,
+            enabled = false,
+            onCheckedChange = {}
+        )
+
+        is Task.PendingTask -> Checkbox(
+            checked = false,
+            enabled = true,
+            onCheckedChange = { onCheckedChange(task) }
+        )
+    }
+}
+
+private fun TextStyle.forTask(task: Task) =
+    when (task) {
+        is Task.CompletedTask -> this.copy(textDecoration = TextDecoration.LineThrough)
+        is Task.PendingTask -> this
+    }
+
+@Composable
+private fun NoTasks(
     image: ImageVector,
     imageContentDescription: StringResource,
     text: StringResource,

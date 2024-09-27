@@ -1,47 +1,67 @@
 package bg.dalexiev.todo
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import bg.dalexiev.todo.ui.ToDoApp
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import bg.dalexiev.todo.login.LoginScreen
+import bg.dalexiev.todo.login.LoginViewModel
+import bg.dalexiev.todo.resources.Res
+import bg.dalexiev.todo.resources.login_title
+import bg.dalexiev.todo.resources.tasks_title
+import bg.dalexiev.todo.task.TaskScreen
+import bg.dalexiev.todo.task.TasksViewModel
+import org.jetbrains.compose.resources.StringResource
+
+enum class ToDoScreen(val route: String, val title: StringResource) {
+    LOGIN("login", Res.string.login_title),
+    TASKS("tasks", Res.string.tasks_title)
+}
 
 @Composable
-@Preview
-fun App(appContainer: AppContainer) {
+fun App(
+    appContainer: AppContainer,
+    navHostController: NavHostController = rememberNavController()
+) {
     MaterialTheme {
-        ToDoApp(appContainer = appContainer)
+        NavHost(
+            navController = navHostController,
+            startDestination = ToDoScreen.TASKS.route
+        ) {
+            composable(route = ToDoScreen.TASKS.route) {
+                TaskScreen(
+                    viewModel = viewModel {
+                        TasksViewModel(
+                            appContainer.taskRepository,
+                            appContainer.tokenStore
+                        )
+                    },
+                    onNavigateToLoginScreen = { navHostController.navigate(ToDoScreen.LOGIN.route) },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            composable(route = ToDoScreen.LOGIN.route) {
+                LoginScreen(
+                    viewModel = viewModel {
+                        LoginViewModel(
+                            appContainer.userRepository,
+                            appContainer.tokenStore
+                        )
+                    },
+                    onLoginCompleted = { navHostController.popBackStack() },
+                    onExitApp = { },
+                    modifier = Modifier.fillMaxSize()
+                        .padding(32.dp)
+                )
+            }
+        }
     }
 }

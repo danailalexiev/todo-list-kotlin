@@ -1,15 +1,12 @@
-package bg.dalexiev.todo.ui.task
+package bg.dalexiev.todo.task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bg.dalexiev.todo.data.TaskRepository
-import bg.dalexiev.todo.data.TokenStore
-import bg.dalexiev.todo.task.Task
+import bg.dalexiev.todo.auth.TokenStore
 import bg.dalexiev.todo.util.Either
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach

@@ -4,10 +4,10 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias TasksResponse = List<Task>
+typealias TasksResponse = List<TaskResponse>
 
 @Serializable
-data class Task(
+data class TaskResponse(
     @SerialName("id") val id: Long,
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,

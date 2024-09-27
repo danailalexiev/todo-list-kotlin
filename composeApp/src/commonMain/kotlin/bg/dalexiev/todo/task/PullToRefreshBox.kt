@@ -1,4 +1,4 @@
-package bg.dalexiev.todo.ui.task
+package bg.dalexiev.todo.task
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.ExperimentalMaterial3Api
