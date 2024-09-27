@@ -1,0 +1,21 @@
+meta {
+  name: Update task
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/tasks/{{taskId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "completed": true
+  }
+}

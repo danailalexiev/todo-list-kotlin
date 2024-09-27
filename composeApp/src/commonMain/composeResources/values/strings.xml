@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ToDo List</string>
+    
+    <string name="back_button">Back</string>
+
+    <string name="login_title">Welcome back!</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_sign_in_button">Sign In</string>
+    <string name="login_error">Wrong username or password</string>
+    <string name="login_hide_password">Hide password</string>
+    <string name="login_show_password">Show password</string>
+    
+    <string name="tasks_title">Tasks</string>
+    <string name="tasks_error_content_description">Warning icon</string>
+    <string name="tasks_error_label">Task loading failed. Please, try again.</string>
+    <string name="tasks_all_done_content_description">Done icon</string>
+    <string name="tasks_all_done_label">All done! Good job!</string>
+    <string name="tasks_delete_task_button">Delete task</string>
+    
+    <string name="done_title">Done</string>
+</resources>

@@ -1,0 +1,22 @@
+meta {
+  name: Login
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "danail.lxv@gmail.com",
+    "password": "Secret!23"
+  }
+}
+
+script:post-response {
+  bru.setEnvVar("accessToken",res.body.token)
+}

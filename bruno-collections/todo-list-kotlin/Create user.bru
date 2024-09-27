@@ -1,0 +1,18 @@
+meta {
+  name: Create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "danail.lxv@gmail.com",
+    "password": "Secret!23"
+  }
+}

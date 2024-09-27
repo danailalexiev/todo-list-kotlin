@@ -1,0 +1,15 @@
+meta {
+  name: Delete Task
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/tasks/{{taskId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Create task
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/tasks
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "title": "Test task from Bruno",
+    "description": "This task was created via Bruno to test the endpoint"
+  }
+}
+
+script:post-response {
+  bru.setEnvVar("taskId",res.body.id)
+}

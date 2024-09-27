@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "todo-list-kotlin",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
