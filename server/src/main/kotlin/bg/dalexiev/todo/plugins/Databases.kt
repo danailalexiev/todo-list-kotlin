@@ -1,5 +1,6 @@
 package bg.dalexiev.todo.plugins
 
+import bg.dalexiev.todo.task.Tasks
 import bg.dalexiev.todo.user.Users
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -10,7 +11,7 @@ fun configureDatabases(dataSource: DataSource) {
     Database.connect(dataSource)
         .also {
             transaction(it) {
-                SchemaUtils.create(Users)
+                SchemaUtils.create(Users, Tasks)
             }
         }
 }

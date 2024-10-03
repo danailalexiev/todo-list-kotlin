@@ -3,7 +3,6 @@ package bg.dalexiev.todo.auth
 import bg.dalexiev.todo.user.EmailAddress
 import bg.dalexiev.todo.user.Password
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

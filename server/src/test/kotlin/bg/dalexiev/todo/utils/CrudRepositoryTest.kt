@@ -25,7 +25,7 @@ abstract class CrudRepositorySpec<E, ID, R : CrudRepository<E, ID>, DO : Databas
     repo: R,
     entityOps: EntityOps<E, ID>,
     databaseOpsFactory: (JdbcTemplate) -> DO,
-    body: context(R, EntityOps<E, ID>, DO) FunSpec.() -> Unit = { }
+    body: context(R, EntityOps<E, ID>, DO, JdbcTemplate) FunSpec.() -> Unit = { }
 ) : FunSpec({
 
     val dataSource = install(postgresContainerExtension).also { configureDatabases(it) }
@@ -181,5 +181,5 @@ abstract class CrudRepositorySpec<E, ID, R : CrudRepository<E, ID>, DO : Databas
         }
     }
 
-    body(repo, entityOps, databaseOps, this)
+    body(repo, entityOps, databaseOps, jdbcTemplate, this)
 })

@@ -1,5 +1,6 @@
 package bg.dalexiev.todo.utils
 
+import bg.dalexiev.todo.task.Tasks
 import bg.dalexiev.todo.user.Users
 import io.kotest.extensions.testcontainers.JdbcDatabaseContainerExtension
 import org.jetbrains.exposed.sql.deleteAll
@@ -15,6 +16,7 @@ val postgresContainerExtension = JdbcDatabaseContainerExtension(
     afterTest = { _, _ ->
         transaction {
             Users.deleteAll()
+            Tasks.deleteAll()
         }
     }
 )

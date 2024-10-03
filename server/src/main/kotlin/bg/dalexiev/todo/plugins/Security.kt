@@ -4,9 +4,11 @@ import bg.dalexiev.todo.Environment
 import bg.dalexiev.todo.auth.AuthService
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.response.*
 
 fun Application.configureSecurity(authConfig: Environment.Auth, authService: AuthService) {
     authentication {
@@ -19,6 +21,9 @@ fun Application.configureSecurity(authConfig: Environment.Auth, authService: Aut
                     .build()
             )
             validate { authService.validateCredential(it) }
+            challenge { _, _ ->
+                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
+            }
         }
     }
 }

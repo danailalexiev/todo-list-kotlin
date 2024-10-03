@@ -40,6 +40,13 @@ class JdbcTemplate(dataSource: DataSource) : AutoCloseable {
             else -> throw SQLException("Generated ${generatedKeys.size} keys for query $query")
         }
     }
+    
+    fun insert(query: String, params: List<Any> = emptyList()) {
+        connection.prepareStatement(query).use { statement -> 
+            params.forEachIndexed { index, param -> statement.setObject(index + 1, param) }
+            statement.executeUpdate()
+        }
+    }
 
     private fun <T> executeStatement(
         query: String,

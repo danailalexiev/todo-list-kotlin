@@ -89,7 +89,10 @@ class UserPersistenceTest : CrudRepositorySpec<RegisteredUser, Long, UserReposit
 
         context("findByEmail")
         {
-            insertEntity(expectedUser)
+
+            beforeTest { 
+                insertEntity(expectedUser)
+            }
 
             test("returns RegisteredUser") {
                 // when

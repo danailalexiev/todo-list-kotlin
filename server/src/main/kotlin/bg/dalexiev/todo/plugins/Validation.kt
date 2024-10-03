@@ -1,6 +1,7 @@
 package bg.dalexiev.todo.plugins
 
 import bg.dalexiev.todo.auth.configureAuthRequestValidation
+import bg.dalexiev.todo.task.configureTaskRequestValidation
 import bg.dalexiev.todo.user.configureUserRequestValidation
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -12,6 +13,7 @@ fun Application.configureValidation() {
     install(RequestValidation) {
         configureUserRequestValidation()
         configureAuthRequestValidation()
+        configureTaskRequestValidation()
     }
     
     install(StatusPages) {
