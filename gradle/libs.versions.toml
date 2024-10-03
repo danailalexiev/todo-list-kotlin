@@ -78,6 +78,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 
 hikari = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikari" }
 
@@ -101,7 +102,8 @@ testcontainers-postgresql = { group = "org.testcontainers", name = "postgresql",
 
 [bundles]
 ktor-server = ["ktor-server-core", "ktor-server-netty", "ktor-server-content-negotiation", "ktor-serialization-json-jvm", "ktor-server-auth", "ktor-server-auth-jwt", "ktor-server-request-validation", "ktor-server-status-pages"]
-exposed = ["exposed-core", "exposed-jdbc"]
+ktor-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-client-auth", "ktor-client-logging", "ktor-serialization-json"]
+exposed = ["exposed-core", "exposed-jdbc", "exposed-kotlin-datetime"]
 kotest-server = ["kotest-junit5", "kotest-ktor", "kotest-testcontainers"]
 
 [plugins]
