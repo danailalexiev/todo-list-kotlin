@@ -20,7 +20,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 
-const val BASE_URL = "http://localhost:8080"
+const val BASE_URL = "https://17fb-77-78-138-47.ngrok-free.app"
 
 class AppContainer {
 

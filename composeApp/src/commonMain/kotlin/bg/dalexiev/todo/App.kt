@@ -28,7 +28,8 @@ enum class ToDoScreen(val route: String, val title: StringResource) {
 @Composable
 fun App(
     appContainer: AppContainer,
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
+    onExitApp: () -> Unit = {}
 ) {
     MaterialTheme {
         NavHost(
@@ -57,7 +58,7 @@ fun App(
                         )
                     },
                     onLoginCompleted = { navHostController.popBackStack() },
-                    onExitApp = { },
+                    onExitApp = onExitApp,
                     modifier = Modifier.fillMaxSize()
                         .padding(32.dp)
                 )

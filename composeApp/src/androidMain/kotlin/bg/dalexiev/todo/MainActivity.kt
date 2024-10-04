@@ -11,7 +11,9 @@ class MainActivity : ComponentActivity() {
         val appContainer = (application as ToDoApplication).appContainer
 
         setContent {
-            App(appContainer)
+            App(appContainer) {
+                moveTaskToBack(false)
+            }
         }
     }
 }

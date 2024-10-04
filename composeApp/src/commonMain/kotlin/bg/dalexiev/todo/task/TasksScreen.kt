@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.stringResource
 fun TaskScreen(
     viewModel: TasksViewModel,
     modifier: Modifier = Modifier,
-    onNavigateToLoginScreen: () -> Unit
+    onNavigateToLoginScreen: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -57,7 +57,7 @@ fun TaskScreen(
             uiState = uiState as TasksUiState.LoggedIn,
             onTaskCompleted = {},
             onTaskDeleted = {},
-            onRefresh = { viewModel.refresh() }
+            onRefresh = { viewModel.refresh() },
         )
     }
 }
@@ -68,8 +68,9 @@ private fun TaskScreenContent(
     uiState: TasksUiState.LoggedIn,
     onTaskCompleted: (Task.PendingTask) -> Unit,
     onTaskDeleted: (Task) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
 ) {
+
     TaskScaffold(modifier = modifier) { padding ->
         PullToRefreshBox(
             modifier = Modifier.padding(padding),
