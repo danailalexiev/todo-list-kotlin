@@ -36,6 +36,7 @@ import bg.dalexiev.todo.resources.login_sign_in_button
 import bg.dalexiev.todo.resources.login_title
 import bg.dalexiev.todo.resources.visibility
 import bg.dalexiev.todo.resources.visibility_off
+import bg.dalexiev.todo.task.BackHandler
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -46,6 +47,7 @@ fun LoginScreen(
     onExitApp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    BackHandler(onBack = onExitApp)
 
     val uiState by viewModel.uiState.collectAsState()
 
