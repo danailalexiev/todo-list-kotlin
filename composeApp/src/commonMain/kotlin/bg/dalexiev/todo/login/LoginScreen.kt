@@ -64,16 +64,17 @@ fun LoginScreen(
         Text(text = stringResource(Res.string.login_title))
 
         OutlinedTextField(
-            value = uiState.email,
+            value = viewModel.email,
             onValueChange = { viewModel.onEmailChanged(it) },
             label = { Text(text = stringResource(Res.string.login_email_hint)) },
             isError = uiState.loginResult is LoginResult.Failure,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            singleLine = true
         )
 
         var passwordVisible by remember { mutableStateOf(false) }
         OutlinedTextField(
-            value = uiState.password,
+            value = viewModel.password,
             onValueChange = { viewModel.onPasswordChanged(it) },
             label = { Text(text = stringResource(Res.string.login_password_hint)) },
             isError = uiState.loginResult is LoginResult.Failure,

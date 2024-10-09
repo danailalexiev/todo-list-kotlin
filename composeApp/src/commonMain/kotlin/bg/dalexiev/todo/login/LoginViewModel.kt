@@ -22,8 +22,6 @@ import org.jetbrains.compose.resources.StringResource
 
 data class LoginUiState(
     val isLoading: Boolean,
-    val email: String,
-    val password: String,
     val isSignInButtonEnabled: Boolean,
     val loginResult: LoginResult,
 )
@@ -43,8 +41,6 @@ class LoginViewModel(
     private val _uiState = MutableStateFlow(
         LoginUiState(
             isLoading = false,
-            email = "",
-            password = "",
             isSignInButtonEnabled = false,
             loginResult = LoginResult.NotAttempted
         )
@@ -52,9 +48,11 @@ class LoginViewModel(
     val uiState: StateFlow<LoginUiState>
         get() = _uiState.asStateFlow()
 
-    private var email by mutableStateOf("")
+    var email by mutableStateOf("")
+        private set
 
-    private var password by mutableStateOf("")
+    var password by mutableStateOf("")
+        private set
 
     init {
         snapshotFlow { email to password }
@@ -64,8 +62,6 @@ class LoginViewModel(
             .onEach { formState ->
                 _uiState.update {
                     it.copy(
-                        email = formState.first,
-                        password = formState.second,
                         isSignInButtonEnabled = formState.third,
                         loginResult = LoginResult.NotAttempted
                     )
